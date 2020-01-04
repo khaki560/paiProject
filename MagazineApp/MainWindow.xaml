@@ -18,18 +18,19 @@
 			<RowDefinition Height="30" />
 			<RowDefinition Height="30" />
 			<RowDefinition Height="30" />
+			<!--<RowDefinition Height="30" />-->
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
 
 		<Label Content="ID:" Grid.Row="0" Grid.Column="0"/>
 		<TextBox Grid.Row="0" Grid.Column="1" Name="idValue" Text=""/>
-		
+
 		<Label Content="Name" Grid.Row="1" Grid.Column="0" />
 		<TextBox Grid.Row="1" Grid.Column="1" Name="NameValue" Text=""/>
-		
+
 		<Label Content="Count" Grid.Row="2" Grid.Column="0" />
 		<TextBox Grid.Row="2" Grid.Column="1" Name="CountValue" Text=""/>
-		
+
 		<Label Content="Localization" Grid.Row="3" Grid.Column="0" />
 		<TextBox Grid.Row="3" Grid.Column="1" Name="LocalizationValue" Text=""/>
 
@@ -58,6 +59,11 @@
 				Click="ButtonRefresh_Click"/>
 
 
+		<!--<Label Content="Localization:" Grid.Row="4" Grid.Column="1" RenderTransformOrigin="1.2,0.633" Margin="78,3,147,0" Grid.RowSpan="2" />
+		<Label Content="Count:" Grid.Row="4" Grid.Column="1" Margin="20,3,205,0" Grid.RowSpan="2" />
+		<Label Content="Name:" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Margin="32,3,268,0" Grid.RowSpan="2"/>
+		<Label Content="ID:" Grid.Row="4" Grid.Column="0" Margin="0,3,0,0"/>-->
+		
 		<DockPanel Grid.Row="4" Grid.ColumnSpan="4">
 			<ListBox Name="ListOfEntires" RenderTransformOrigin="0.5,0.5" Margin="0,83,0,0">
 				<ListBox.RenderTransform>
@@ -70,16 +76,27 @@
 				</ListBox.RenderTransform>
 				<ListBox.ItemTemplate>
 					<DataTemplate>
-						<StackPanel>
-							<Label Content="{Binding BlogId}"/>
+						<StackPanel Orientation="Horizontal">
 							<TextBlock
+								Margin="0,0,40,0"
+								Text="{Binding Id}"
+								FontWeight="Bold" />
+							<TextBlock
+								Margin="0,0,40,0"
 								Text="{Binding Name}"
+								FontWeight="Bold" />
+							<TextBlock
+								Margin="0,0,40,0"
+								Text="{Binding Count}"
+								FontWeight="Bold" />
+							<TextBlock
+								Text="{Binding Localization}"
 								FontWeight="Bold" />
 						</StackPanel>
 					</DataTemplate>
 				</ListBox.ItemTemplate>
 			</ListBox>
 		</DockPanel>
-		
+
 	</Grid>
 </Window>

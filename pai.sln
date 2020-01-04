@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.28922.388
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MagazineWebService", "MagazineWebService\MagazineWebService.csproj", "{3FEC2A67-C790-4BD3-A5FE-AEFE6C08BAE1}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MagazineApp", "MagazineApp\MagazineApp.csproj", "{B84150AB-534C-4656-A440-B00674E7274B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MagazineWebService2", "MagazineWebService2\MagazineWebService2.csproj", "{FF8B45EF-BC7C-43B5-AA59-753BEF934793}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,14 +13,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{3FEC2A67-C790-4BD3-A5FE-AEFE6C08BAE1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3FEC2A67-C790-4BD3-A5FE-AEFE6C08BAE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3FEC2A67-C790-4BD3-A5FE-AEFE6C08BAE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3FEC2A67-C790-4BD3-A5FE-AEFE6C08BAE1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B84150AB-534C-4656-A440-B00674E7274B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B84150AB-534C-4656-A440-B00674E7274B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B84150AB-534C-4656-A440-B00674E7274B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B84150AB-534C-4656-A440-B00674E7274B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FF8B45EF-BC7C-43B5-AA59-753BEF934793}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF8B45EF-BC7C-43B5-AA59-753BEF934793}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF8B45EF-BC7C-43B5-AA59-753BEF934793}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF8B45EF-BC7C-43B5-AA59-753BEF934793}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
