@@ -13,6 +13,18 @@ namespace MagazineModel
     {
         private readonly MagazineContext db = new MagazineContext("MagazineWebServiceDB");
 
+
+        private MagazineEntry Get(int id)
+        {
+            var query = from b in db.Entries
+                        orderby b.Name
+                        where b.Id == id
+                        select b;
+
+            return query.AsEnumerable().FirstOrDefault();
+
+        }
+
         public void Add(MagazineEntry entry)
         {
             db.Entries.Add(entry);
@@ -56,16 +68,6 @@ namespace MagazineModel
             return toReturn;
         }
 
-        private MagazineEntry Get(int id)
-        {
-            var query = from b in db.Entries
-                        orderby b.Name
-                        where b.Id == id
-                        select b;
-
-             return query.AsEnumerable().FirstOrDefault();
-            
-        }
 
         public IEnumerable<MagazineEntry> GetAll()
         {

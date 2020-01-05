@@ -27,9 +27,10 @@ namespace MagazineApp
         public MainWindow()
         {
             InitializeComponent();
+            RefreshListOfEntires();
         }
 
-        public static MagazineWebService2 GetBlogWebClient(string uri = SERVICE_URL)
+        public static MagazineWebService2 GetWebClient(string uri = SERVICE_URL)
         {
             var client = new MagazineWebService2(new Uri(uri), new BasicAuthenticationCredentials());
             return client;
@@ -37,7 +38,7 @@ namespace MagazineApp
 
         private void ButtonAdd_Click(object sender, RoutedEventArgs e)
         {
-            var client = GetBlogWebClient();
+            var client = GetWebClient();
 
             string name = NameValue.Text;
             int count = Int32.Parse(CountValue.Text);
@@ -49,7 +50,7 @@ namespace MagazineApp
 
         private void ButtonDelete_Click(object sender, RoutedEventArgs e)
         {
-            var client = GetBlogWebClient();
+            var client = GetWebClient();
 
             int id = Int32.Parse(idValue.Text);
             int count = Int32.Parse(CountValue.Text);
@@ -61,7 +62,7 @@ namespace MagazineApp
 
         private void ButtonModify_Click(object sender, RoutedEventArgs e)
         {
-            var client = GetBlogWebClient();
+            var client = GetWebClient();
 
             int id = Int32.Parse(idValue.Text);
             int count = Int32.Parse(CountValue.Text);
@@ -72,7 +73,7 @@ namespace MagazineApp
 
         private void RefreshListOfEntires()
         {
-            var client = GetBlogWebClient();
+            var client = GetWebClient();
             var list = client.Magazine.GetAllProducts();
 
             ListOfEntires.Items.Clear();
