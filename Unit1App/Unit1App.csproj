@@ -64,9 +64,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="UnitWebService\IOrder.cs" />
     <Compile Include="UnitWebService\IUnit.cs" />
     <Compile Include="UnitWebService\IUnitWebService.cs" />
     <Compile Include="UnitWebService\Models\UnitEntry.cs" />
+    <Compile Include="UnitWebService\Order.cs" />
+    <Compile Include="UnitWebService\OrderExtensions.cs" />
     <Compile Include="UnitWebService\Unit.cs" />
     <Compile Include="UnitWebService\UnitExtensions.cs" />
     <Compile Include="UnitWebService\UnitWebService.cs" />

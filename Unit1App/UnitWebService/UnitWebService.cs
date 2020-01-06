@@ -43,6 +43,11 @@ namespace Unit1App
         public ServiceClientCredentials Credentials { get; private set; }
 
         /// <summary>
+        /// Gets the IOrder.
+        /// </summary>
+        public virtual IOrder Order { get; private set; }
+
+        /// <summary>
         /// Gets the IUnit.
         /// </summary>
         public virtual IUnit Unit { get; private set; }
@@ -230,6 +235,7 @@ namespace Unit1App
         /// </summary>
         private void Initialize()
         {
+            this.Order = new Order(this);
             this.Unit = new Unit(this);
             this.BaseUri = new Uri("https://localhost:44346");
             SerializationSettings = new JsonSerializerSettings

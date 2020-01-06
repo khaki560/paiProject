@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Unit1App.Models;
 
 namespace Unit1App
 {
@@ -31,59 +32,115 @@ namespace Unit1App
 
         public static UnitWebService GetWebClient(string uri = SERVICE_URL)
         {
-            var client = new UnitWebService(new Uri(uri), new BasicAuthenticationCredentials());
-            return client;
+            return new UnitWebService(new Uri(uri), new BasicAuthenticationCredentials());
         }
 
         private void ButtonAdd_Click(object sender, RoutedEventArgs e)
         {
-            var client = GetWebClient();
+            try
+            {
+                var client = GetWebClient();
 
-            string name = NameValue.Text;
-            int count = Int32.Parse(CountValue.Text);
-            float price = float.Parse(PriceValue.Text);
+                string name = NameValue.Text;
+                int count = Int32.Parse(CountValue.Text);
+                float price = float.Parse(PriceValue.Text);
 
-            client.Unit.AddMagazineProduct(name, count, price);
-            RefreshListOfEntires();
+                client.Unit.AddMagazineProduct(name, count, price);
+                RefreshListOfEntires();
+            }
+            catch
+            {
+
+            }
         }
 
         private void ButtonDelete_Click(object sender, RoutedEventArgs e)
         {
-            var client = GetWebClient();
+            try
+            {
+                var client = GetWebClient();
 
-            int id = Int32.Parse(idValue.Text);
+                int id = Int32.Parse(idValue.Text);
 
-            client.Unit.RemoveMagazineProduct(id);
-            RefreshListOfEntires();
+                client.Unit.RemoveMagazineProduct(id);
+                RefreshListOfEntires();
+            }
+            catch
+            {
+
+            }
         }
 
         private void ButtonModify_Click(object sender, RoutedEventArgs e)
         {
-            var client = GetWebClient();
+            try
+            {
+                var client = GetWebClient();
 
-            int id = Int32.Parse(idValue.Text);
-            int count = Int32.Parse(CountValue.Text);
-            float price = float.Parse(PriceValue.Text);
+                int id = Int32.Parse(idValue.Text);
+                int count = Int32.Parse(CountValue.Text);
+                float price = float.Parse(PriceValue.Text);
 
-            client.Unit.ModifyMagazineProduct(id, count, price);
-            RefreshListOfEntires();
+                client.Unit.ModifyMagazineProduct(id, count, price);
+                RefreshListOfEntires();
+            }
+            catch
+            {
+
+            }
         }
 
         private void RefreshListOfEntires()
         {
-            var client = GetWebClient();
-            var list = client.Unit.GetAllProducts();
-
-            ListOfEntires.Items.Clear();
-
-            foreach (var item in list)
+            try
             {
-                ListOfEntires.Items.Add(item);
+                var client = GetWebClient();
+                var list = client.Unit.GetAllProducts();
+
+                ListOfEntires.Items.Clear();
+
+                foreach (var item in list)
+                {
+                    ListOfEntires.Items.Add(item);
+                }
+            }
+            catch
+            {
+
             }
         }
         private void ButtonRefresh_Click(object sender, RoutedEventArgs e)
         {
-            RefreshListOfEntires();
+            try
+            {
+                RefreshListOfEntires();
+            }
+            catch
+            {
+
+            }
+        }
+
+        private void ButtonOrder_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var client = GetWebClient();
+
+                int id = Int32.Parse(idValue.Text);
+                int count = Int32.Parse(CountValue.Text);
+                float price = float.Parse(PriceValue.Text);
+                string name = NameValue.Text;
+
+                var entry = new UnitEntry(id, name, 0, price);
+
+                client.Order.Order(entry, count);
+                RefreshListOfEntires();
+            }
+            catch
+            {
+
+            }
         }
     }
 }

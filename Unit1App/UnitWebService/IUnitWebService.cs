@@ -40,6 +40,11 @@ namespace Unit1App
 
 
         /// <summary>
+        /// Gets the IOrder.
+        /// </summary>
+        IOrder Order { get; }
+
+        /// <summary>
         /// Gets the IUnit.
         /// </summary>
         IUnit Unit { get; }

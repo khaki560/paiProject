@@ -57,6 +57,12 @@
 				Grid.Row="3"
 				Grid.Column="3"
 				Click="ButtonRefresh_Click"/>
+		
+		<Button Name="Order"
+				Content="order"
+				Grid.Row="0"
+				Grid.Column="2"
+				Click="ButtonOrder_Click" />
 
 
 		<!--<Label Content="Localization:" Grid.Row="4" Grid.Column="1" RenderTransformOrigin="1.2,0.633" Margin="78,3,147,0" Grid.RowSpan="2" />
