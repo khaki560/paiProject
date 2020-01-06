@@ -48,6 +48,11 @@ namespace MagazineApp
         public virtual IMagazine Magazine { get; private set; }
 
         /// <summary>
+        /// Gets the ISynchronizationForUnit.
+        /// </summary>
+        public virtual ISynchronizationForUnit SynchronizationForUnit { get; private set; }
+
+        /// <summary>
         /// Initializes a new instance of the MagazineWebService2 class.
         /// </summary>
         /// <param name='handlers'>
@@ -231,6 +236,7 @@ namespace MagazineApp
         private void Initialize()
         {
             this.Magazine = new Magazine(this);
+            this.SynchronizationForUnit = new SynchronizationForUnit(this);
             this.BaseUri = new Uri("https://localhost:44315");
             SerializationSettings = new JsonSerializerSettings
             {

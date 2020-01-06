@@ -44,5 +44,10 @@ namespace MagazineApp
         /// </summary>
         IMagazine Magazine { get; }
 
+        /// <summary>
+        /// Gets the ISynchronizationForUnit.
+        /// </summary>
+        ISynchronizationForUnit SynchronizationForUnit { get; }
+
     }
 }

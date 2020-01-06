@@ -38,54 +38,110 @@ namespace MagazineApp
 
         private void ButtonAdd_Click(object sender, RoutedEventArgs e)
         {
-            var client = GetWebClient();
+            try
+            {
+                var client = GetWebClient();
 
-            string name = NameValue.Text;
-            int count = Int32.Parse(CountValue.Text);
-            string localization = LocalizationValue.Text;
+                string name = NameValue.Text;
+                int count = Int32.Parse(CountValue.Text);
+                string localization = LocalizationValue.Text;
 
-            client.Magazine.AddMagazineProduct(name, count, localization);
-            RefreshListOfEntires();
+                client.Magazine.AddMagazineProduct(name, count, localization);
+                if (RefreshListOfEntires() == false)
+                {
+                    throw new PrintDialogException();
+                }
+            }
+            catch
+            {
+                ShowError();
+            }
         }
 
         private void ButtonDelete_Click(object sender, RoutedEventArgs e)
         {
-            var client = GetWebClient();
+            try
+            {
+                var client = GetWebClient();
 
-            int id = Int32.Parse(idValue.Text);
-            int count = Int32.Parse(CountValue.Text);
-            string localization = LocalizationValue.Text;
+                int id = Int32.Parse(idValue.Text);
 
-            client.Magazine.RemoveMagazineProduct(id);
-            RefreshListOfEntires();
-        }
+                client.Magazine.RemoveMagazineProduct(id);
+                if (RefreshListOfEntires() == false)
+                {
+                    throw new PrintDialogException();
+                }
+            }
+            catch
+            {
+                ShowError();
+            }
+}
 
         private void ButtonModify_Click(object sender, RoutedEventArgs e)
         {
-            var client = GetWebClient();
-
-            int id = Int32.Parse(idValue.Text);
-            int count = Int32.Parse(CountValue.Text);
-
-            client.Magazine.ModifyMagazineProduct(id, count);
-            RefreshListOfEntires();
-        }
-
-        private void RefreshListOfEntires()
-        {
-            var client = GetWebClient();
-            var list = client.Magazine.GetAllProducts();
-
-            ListOfEntires.Items.Clear();
-
-            foreach (var item in list)
+            try
             {
-                ListOfEntires.Items.Add(item);
+                var client = GetWebClient();
+
+                int id = Int32.Parse(idValue.Text);
+                int count = Int32.Parse(CountValue.Text);
+
+                client.Magazine.ModifyMagazineProduct(id, count);
+                if (RefreshListOfEntires() == false)
+                {
+                    throw new PrintDialogException();
+                }
+            }
+            catch
+            {
+                ShowError();
             }
         }
+
+        private bool RefreshListOfEntires()
+        {
+            bool success = true;
+            try
+            {
+                var client = GetWebClient();
+                var list = client.Magazine.GetAllProducts();
+
+                ListOfEntires.Items.Clear();
+
+                foreach (var item in list)
+                {
+                    ListOfEntires.Items.Add(item);
+                }
+            }
+            catch
+            {
+                success = false;
+            }
+            return success;
+        }
+
+        private void ShowError()
+        {
+            var errorPopUp = new ErrorPopUp();
+            errorPopUp.ShowDialog();
+        }
+
         private void ButtonRefresh_Click(object sender, RoutedEventArgs e)
         {
-            RefreshListOfEntires();
+            try
+            {
+                var client = GetWebClient();
+                client.SynchronizationForUnit.Synchronize();
+                if (RefreshListOfEntires() == false)
+                {
+                    throw new PrintDialogException();
+                }
+            }
+            catch
+            {
+                ShowError();
+            }
         }
     }
 }
