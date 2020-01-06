@@ -53,12 +53,17 @@
       <HintPath>..\packages\EntityFramework.6.4.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Rest.ClientRuntime, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Rest.ClientRuntime.2.3.2\lib\net45\Microsoft.Rest.ClientRuntime.dll</HintPath>
+    </Reference>
     <Reference Include="Swashbuckle.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cd1bb07a5ac7c7bc, processorArchitecture=MSIL">
       <HintPath>..\packages\Swashbuckle.Core.5.6.0\lib\net40\Swashbuckle.Core.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -145,10 +150,20 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\UnitController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="MagazineWebService2\IMagazine.cs" />
+    <Compile Include="MagazineWebService2\IMagazineWebService2.cs" />
+    <Compile Include="MagazineWebService2\ISynchronizationForUnit.cs" />
+    <Compile Include="MagazineWebService2\Magazine.cs" />
+    <Compile Include="MagazineWebService2\MagazineExtensions.cs" />
+    <Compile Include="MagazineWebService2\MagazineWebService2.cs" />
+    <Compile Include="MagazineWebService2\Models\MagazineEntry.cs" />
+    <Compile Include="MagazineWebService2\SynchronizationForUnit.cs" />
+    <Compile Include="MagazineWebService2\SynchronizationForUnitExtensions.cs" />
     <Compile Include="Models\unit\UnitContext.cs" />
     <Compile Include="Models\unit\UnitEntry.cs" />
     <Compile Include="Models\unit\UnitRepository.cs" />
