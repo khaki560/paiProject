@@ -70,6 +70,16 @@ namespace WebApplication3.Controllers
             return Ok();
         }
 
+        //[HttpPut]
+        //public IHttpActionResult ReceiveOrder(string Name, string location, int orderCount)
+        //{
+        //    using (var repository = new MagazineRepository())
+        //    {
+        //        var products = repository.GetAll();
+        //    }
+        //        return Ok();
+        //}
+
 
         // TODO: doesn;t work
         [HttpDelete]

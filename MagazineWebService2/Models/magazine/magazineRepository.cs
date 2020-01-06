@@ -17,7 +17,6 @@ namespace MagazineModel
         private MagazineEntry Get(int id)
         {
             var query = from b in db.Entries
-                        orderby b.Name
                         where b.Id == id
                         select b;
 
@@ -72,7 +71,7 @@ namespace MagazineModel
         public IEnumerable<MagazineEntry> GetAll()
         {
             var query = from b in db.Entries
-                        orderby b.Id
+                        orderby b.Localization
                         select b;
 
             return query.AsEnumerable().Select(item =>
