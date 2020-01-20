@@ -64,6 +64,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Add.xaml.cs">
+      <DependentUpon>Add.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ErrorPopUp.xaml.cs">
+      <DependentUpon>ErrorPopUp.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ModifyPopUp.xaml.cs">
+      <DependentUpon>ModifyPopUp.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="OrderPopUp.xaml.cs">
+      <DependentUpon>OrderPopUp.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UnitWebService\IOrder.cs" />
     <Compile Include="UnitWebService\IUnit.cs" />
     <Compile Include="UnitWebService\IUnitWebService.cs" />
@@ -73,6 +85,14 @@
     <Compile Include="UnitWebService\Unit.cs" />
     <Compile Include="UnitWebService\UnitExtensions.cs" />
     <Compile Include="UnitWebService\UnitWebService.cs" />
+    <Page Include="Add.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ErrorPopUp.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -85,6 +105,14 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="ModifyPopUp.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="OrderPopUp.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">

@@ -20,6 +20,23 @@ namespace Unit1App
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
+    /// 
+
+    class UnitEntryDisplay : UnitEntry
+    {
+
+        public bool Selected { set; get; }
+
+        public UnitEntryDisplay(UnitEntry a) : base(a.Id, a.Name, a.Count, a.Price)
+        {
+            Selected = false;
+        }
+
+        public UnitEntry GetUnitEntry()
+        {
+            return new UnitEntry(this.Id, this.Name, this.Count, this.Price);
+        }
+    }
     public partial class MainWindow : Window
     {
         public const string SERVICE_URL = "https://localhost:44346/";
@@ -28,6 +45,7 @@ namespace Unit1App
         {
             InitializeComponent();
             RefreshListOfEntires();
+
         }
 
         public static UnitWebService GetWebClient(string uri = SERVICE_URL)
@@ -40,17 +58,16 @@ namespace Unit1App
             try
             {
                 var client = GetWebClient();
+                var addPopUp = new Add();
+                addPopUp.ShowDialog();
 
-                string name = NameValue.Text;
-                int count = Int32.Parse(CountValue.Text);
-                float price = float.Parse(PriceValue.Text);
-
-                client.Unit.AddMagazineProduct(name, count, price);
+                client.Unit.AddMagazineProduct(addPopUp.Name, addPopUp.Count, addPopUp.Price);
                 RefreshListOfEntires();
             }
             catch
             {
-
+                var errorPopUp = new ErrorPopUp();
+                errorPopUp.ShowDialog();
             }
         }
 
@@ -60,14 +77,19 @@ namespace Unit1App
             {
                 var client = GetWebClient();
 
-                int id = Int32.Parse(idValue.Text);
-
-                client.Unit.RemoveMagazineProduct(id);
+                foreach (UnitEntryDisplay item in ListOfEntires.Items)
+                {
+                    if (item.Selected == true)
+                    {
+                        client.Unit.RemoveMagazineProduct(item.Id.Value);
+                    }
+                }
                 RefreshListOfEntires();
-            }
+            } 
             catch
             {
-
+                var errorPopUp = new ErrorPopUp();
+                errorPopUp.ShowDialog();
             }
         }
 
@@ -77,16 +99,22 @@ namespace Unit1App
             {
                 var client = GetWebClient();
 
-                int id = Int32.Parse(idValue.Text);
-                int count = Int32.Parse(CountValue.Text);
-                float price = float.Parse(PriceValue.Text);
+                foreach (UnitEntryDisplay item in ListOfEntires.Items)
+                {
+                    if (item.Selected == true)
+                    {
+                        var modifyPopUp = new ModifyPopUp();
+                        modifyPopUp.ShowDialog();
 
-                client.Unit.ModifyMagazineProduct(id, count, price);
+                        client.Unit.ModifyMagazineProduct(item.Id.Value, modifyPopUp.Count, modifyPopUp.Price);
+                    }
+                }
                 RefreshListOfEntires();
             }
             catch
             {
-
+                var errorPopUp = new ErrorPopUp();
+                errorPopUp.ShowDialog();
             }
         }
 
@@ -98,15 +126,15 @@ namespace Unit1App
                 var list = client.Unit.GetAllProducts();
 
                 ListOfEntires.Items.Clear();
-
                 foreach (var item in list)
                 {
-                    ListOfEntires.Items.Add(item);
+                    ListOfEntires.Items.Add(new UnitEntryDisplay(item));
                 }
             }
             catch
             {
-
+                var errorPopUp = new ErrorPopUp();
+                errorPopUp.ShowDialog();
             }
         }
         private void ButtonRefresh_Click(object sender, RoutedEventArgs e)
@@ -117,7 +145,8 @@ namespace Unit1App
             }
             catch
             {
-
+                var errorPopUp = new ErrorPopUp();
+                errorPopUp.ShowDialog();
             }
         }
 
@@ -126,21 +155,32 @@ namespace Unit1App
             try
             {
                 var client = GetWebClient();
+                foreach (UnitEntryDisplay item in ListOfEntires.Items)
+                {
+                    if (item.Selected == true)
+                    {
+                        var orderPopUp = new OrderPopUp();
+                        orderPopUp.ShowDialog();
 
-                int id = Int32.Parse(idValue.Text);
-                int count = Int32.Parse(CountValue.Text);
-                float price = float.Parse(PriceValue.Text);
-                string name = NameValue.Text;
+                        var count = orderPopUp.Count;
 
-                var entry = new UnitEntry(id, name, 0, price);
 
-                client.Order.Order(entry, count);
+                        client.Order.Order(item.GetUnitEntry(), Int32.Parse(count));
+                    }
+                }
                 RefreshListOfEntires();
             }
             catch
             {
-
+                var errorPopUp = new ErrorPopUp();
+                errorPopUp.ShowDialog();
             }
+        }
+
+        private void Filter_Click(object sender, RoutedEventArgs e)
+        {
+            // Not ready Yet
+            return; 
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.Rest;
+﻿using MagazineApp.Models;
+using Microsoft.Rest;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +19,24 @@ namespace MagazineApp
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
-    /// </summary>
+    /// </summary> 
+
+
+    public class MagazineEntryDisplay : MagazineEntry
+    {
+        public bool Selected { set; get; }
+
+        public MagazineEntryDisplay(MagazineEntry a) : base(a.Id, a.Name, a.Count, a.Localization)
+        {
+            Selected = false;
+        }
+
+        public MagazineEntry GetUnitEntry()
+        {
+            return new MagazineEntry(this.Id, this.Name, this.Count, this.Localization);
+        }
+    }
+
     public partial class MainWindow : Window
     {
 
@@ -41,20 +59,16 @@ namespace MagazineApp
             try
             {
                 var client = GetWebClient();
+                var addPopUp = new AddPopUp();
+                addPopUp.ShowDialog();
 
-                string name = NameValue.Text;
-                int count = Int32.Parse(CountValue.Text);
-                string localization = LocalizationValue.Text;
-
-                client.Magazine.AddMagazineProduct(name, count, localization);
-                if (RefreshListOfEntires() == false)
-                {
-                    throw new PrintDialogException();
-                }
+                client.Magazine.AddMagazineProduct(addPopUp.Name, addPopUp.Count, addPopUp.Localization);
+                RefreshListOfEntires();
             }
             catch
             {
-                ShowError();
+                var errorPopUp = new ErrorPopUp();
+                errorPopUp.ShowDialog();
             }
         }
 
@@ -64,19 +78,21 @@ namespace MagazineApp
             {
                 var client = GetWebClient();
 
-                int id = Int32.Parse(idValue.Text);
-
-                client.Magazine.RemoveMagazineProduct(id);
-                if (RefreshListOfEntires() == false)
+                foreach (MagazineEntryDisplay item in ListOfEntires.Items)
                 {
-                    throw new PrintDialogException();
+                    if (item.Selected == true)
+                    {
+                        client.Magazine.RemoveMagazineProduct(item.Id.Value);
+                    }
                 }
+                RefreshListOfEntires();
             }
             catch
             {
-                ShowError();
+                var errorPopUp = new ErrorPopUp();
+                errorPopUp.ShowDialog();
             }
-}
+        }
 
         private void ButtonModify_Click(object sender, RoutedEventArgs e)
         {
@@ -84,18 +100,22 @@ namespace MagazineApp
             {
                 var client = GetWebClient();
 
-                int id = Int32.Parse(idValue.Text);
-                int count = Int32.Parse(CountValue.Text);
-
-                client.Magazine.ModifyMagazineProduct(id, count);
-                if (RefreshListOfEntires() == false)
+                foreach (MagazineEntryDisplay item in ListOfEntires.Items)
                 {
-                    throw new PrintDialogException();
+                    if (item.Selected == true)
+                    {
+                        var modifyPopUp = new ModifyPopUp();
+                        modifyPopUp.ShowDialog();
+
+                        client.Magazine.ModifyMagazineProduct(item.Id.Value, modifyPopUp.Count);
+                    }
                 }
+                RefreshListOfEntires();
             }
             catch
             {
-                ShowError();
+                var errorPopUp = new ErrorPopUp();
+                errorPopUp.ShowDialog();
             }
         }
 
@@ -142,6 +162,11 @@ namespace MagazineApp
             {
                 ShowError();
             }
+        }
+
+        private void Filter_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
