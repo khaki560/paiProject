@@ -21,18 +21,6 @@ namespace MagazineWebService2.Controllers
             return client;
         }
 
-        private int isUnitEntryInDatabase(UnitEntry entry, IEnumerable<MagazineEntry> magazineEntries, string location)
-        {
-            foreach (var magazineEntry in magazineEntries)
-            {
-                if (entry.Name == magazineEntry.Name && location == magazineEntry.Localization)
-                {
-                    return magazineEntry.Id;
-                }
-            }
-
-            return -1;
-        }
         public IHttpActionResult Synchronize()
         {
 
@@ -44,18 +32,17 @@ namespace MagazineWebService2.Controllers
                     var client = GetWebClient(SERVICE_URLS[i]);
                     var list = client.Unit.GetAllProducts();
 
+                    var entiresToRemove = listOfMagazineEntries.Where(x => x.Localization == SERVICE_LOCATIONS[i]);
+
+                    foreach (var entry in entiresToRemove)
+                    {
+                        repository.Remove(entry.Id);
+                    }
+
                     foreach (var unitEntry in list)
                     {
-                        var magazineEntryId = isUnitEntryInDatabase(unitEntry, listOfMagazineEntries, SERVICE_LOCATIONS[i]);
-                        if (-1 == magazineEntryId)
-                        {
                             MagazineEntry entry = new MagazineEntry(unitEntry.Name, unitEntry.Count.GetValueOrDefault(), SERVICE_LOCATIONS[i]);
                             repository.Add(entry);
-                        }
-                        else
-                        {
-                            repository.Update(magazineEntryId, unitEntry.Count.GetValueOrDefault());
-                        }
                     }
                 }
             }
