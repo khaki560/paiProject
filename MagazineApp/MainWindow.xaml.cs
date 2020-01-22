@@ -57,6 +57,10 @@ namespace MagazineApp
         private void SetValue(string txt)
         {
             Synchro.Content = txt;
+            if(txt == "synchronized")
+            {
+                RefreshListOfEntires();
+            }
         }
 
         private void isSynchronize()
