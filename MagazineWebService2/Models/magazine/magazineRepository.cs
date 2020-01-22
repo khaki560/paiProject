@@ -4,14 +4,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.Configuration;
 
 
 namespace MagazineModel
 {
     public class MagazineRepository : IDisposable
     {
-        private readonly MagazineContext db = new MagazineContext("MagazineWebServiceDB");
+        // Server=localhost;Database=MagazineWebServiceDBTest;User Id=testuser;Password=123;  --- this is an example value for connectionString="" in Web.config file
+        private readonly MagazineContext db = new MagazineContext(ConfigurationManager.ConnectionStrings["MagazineConnectionStr"].ConnectionString);
 
 
         private MagazineEntry Get(int id)

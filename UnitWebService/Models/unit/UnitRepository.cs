@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 
@@ -7,7 +8,7 @@ namespace UnitWebService.Models.unit
 {
     public class UnitRepository : IDisposable
     {
-        private readonly UnitContext db = new UnitContext("UnitWebServiceDB");
+        private readonly UnitContext db = new UnitContext(ConfigurationManager.ConnectionStrings["UnitConnectionStr"].ConnectionString);
 
         private UnitEntry Get(int id)
         {
