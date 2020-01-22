@@ -149,10 +149,24 @@
         }
       }
     },
-    "/api/SynchronizationForUnit/isSynchronize": {
+    "/api/SynchronizationForUnit/IsSynchronize": {
       "post": {
         "tags": [ "SynchronizationForUnit" ],
-        "operationId": "SynchronizationForUnit_isSynchronize",
+        "operationId": "SynchronizationForUnit_IsSynchronize",
+        "consumes": [],
+        "produces": [ "application/json", "text/json", "application/xml", "text/xml" ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": { "type": "object" }
+          }
+        }
+      }
+    },
+    "/api/SynchronizationForUnit/GetLocations": {
+      "get": {
+        "tags": [ "SynchronizationForUnit" ],
+        "operationId": "SynchronizationForUnit_GetLocations",
         "consumes": [],
         "produces": [ "application/json", "text/json", "application/xml", "text/xml" ],
         "responses": {

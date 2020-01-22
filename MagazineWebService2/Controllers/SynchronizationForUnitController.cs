@@ -14,7 +14,7 @@ namespace MagazineWebService2.Controllers
     public class SynchronizationForUnitController : ApiController
     {
 
-       public static bool synchronize = false;
+        public static bool synchronize = false;
 
         public readonly string[] SERVICE_URLS = new string[1] { "https://localhost:44346/" };
         public readonly string[] SERVICE_LOCATIONS = new string[1] { "Unit1" };
@@ -26,12 +26,43 @@ namespace MagazineWebService2.Controllers
             return client;
         }
 
-        public IHttpActionResult isSynchronize()
+        public IHttpActionResult IsSynchronize()
         {
             return Ok(synchronize);
         }
 
-        public IHttpActionResult Synchronize()
+        public IHttpActionResult GetLocations()
+        {
+            int len = SERVICE_LOCATIONS.Length + 2;
+            string[] tmp = new string[len];
+
+            tmp[0] = "All";
+            tmp[1] = "Magazine";
+            for (int i = 0; i < SERVICE_LOCATIONS.Length; i++)
+            {
+                tmp[i + 2] = SERVICE_LOCATIONS[i];
+            }
+
+            return Ok(tmp);
+        }
+
+
+    //    public IHttpActionResult A()
+    //    {
+    //        int len = SERVICE_LOCATIONS.Length + 2;
+
+    //        public string[] tmp = new string[_len];
+
+    //    tmp[0] = "All";
+    //        tmp[1] = "Magazine";
+    //        for(int i = 0; i<SERVICE_LOCATIONS.Length; i++)
+    //        {
+    //            tmp[i + 2] =  SERVICE_LOCATIONS[i];
+        
+    //        return Ok(synchronize);
+    //}
+
+    public IHttpActionResult Synchronize()
         {
             bool success = true;
             try

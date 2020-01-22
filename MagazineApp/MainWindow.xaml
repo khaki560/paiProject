@@ -23,13 +23,12 @@
 
 			</Grid.ColumnDefinitions>
 
-
-			<MenuItem  Click="Filter_Click" x:Name="Filter"  Grid.Column="0">
-				<MenuItem.ContextMenu>
+			<Button Name="Filter" Content="All" VerticalAlignment="Center"  Grid.Column="0" HorizontalAlignment="Center" Width="75">
+				<Button.ContextMenu>
 					<ContextMenu>
 					</ContextMenu>
-				</MenuItem.ContextMenu>
-			</MenuItem>
+				</Button.ContextMenu>
+			</Button>
 
 			<Label Name="Synchro" Content="123" Grid.Column="1" />
 			<Button Name="Add" Content="add"         Grid.Column="2" Click="ButtonAdd_Click"/>

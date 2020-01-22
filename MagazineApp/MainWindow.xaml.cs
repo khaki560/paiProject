@@ -1,6 +1,7 @@
 ﻿using MagazineApp.Models;
 using Microsoft.Rest;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -45,6 +46,7 @@ namespace MagazineApp
         private static System.Timers.Timer aTimer;
 
         public const string SERVICE_URL = "https://localhost:44315/";
+        private string filter = "All";
 
         public MainWindow()
         {
@@ -52,6 +54,45 @@ namespace MagazineApp
             RefreshListOfEntires();
             isSynchronize();
             SetTimer();
+            CreateFilter();
+        }
+
+        private void SetFilterValue(string txt)
+        {
+
+        }
+
+        private void FilterLabelClick(object sender, RoutedEventArgs e)
+        {
+            Label button = sender as Label;
+            Filter.Content = button.Content;
+            filter = button.Content as string;
+            RefreshListOfEntires(filter);
+        }
+
+
+        private void CreateFilter()
+        {
+            try
+            {
+                var client = GetWebClient();
+                var c = client.SynchronizationForUnit.GetLocations();
+
+                string[] a = ((IEnumerable)c).Cast<object>()
+                                 .Select(x => x.ToString())
+                                 .ToArray();
+
+                foreach (var _a in a)
+                {
+                    var b = new Label { Content = _a };
+                    b.MouseLeftButtonUp += FilterLabelClick;
+                    Filter.ContextMenu.Items.Add(b);
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+
         }
 
         private void SetValue(string txt)
@@ -175,7 +216,7 @@ namespace MagazineApp
             }
         }
 
-        private bool RefreshListOfEntires()
+        private bool RefreshListOfEntires(string filtr="All")
         {
             bool success = true;
             try
@@ -187,7 +228,18 @@ namespace MagazineApp
 
                 foreach (var item in list)
                 {
-                    ListOfEntires.Items.Add(new MagazineEntryDisplay(item));
+                    if(filtr == "All")
+                    {
+                        ListOfEntires.Items.Add(new MagazineEntryDisplay(item));
+                    }
+                    else
+                    {
+                        if(item.Localization == filtr)
+                        {
+                            ListOfEntires.Items.Add(new MagazineEntryDisplay(item));
+                        }
+                    }
+                    
                 }
             }
             catch
