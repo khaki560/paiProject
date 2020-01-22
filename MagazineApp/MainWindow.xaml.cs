@@ -131,7 +131,7 @@ namespace MagazineApp
 
                 foreach (var item in list)
                 {
-                    ListOfEntires.Items.Add(item);
+                    ListOfEntires.Items.Add(new MagazineEntryDisplay(item));
                 }
             }
             catch

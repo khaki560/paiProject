@@ -21,7 +21,6 @@ namespace MagazineApp
     {
 
         public int Count { set; get; }
-        public double Price { set; get; }
         public ModifyPopUp()
         {
             InitializeComponent();
@@ -30,7 +29,6 @@ namespace MagazineApp
         private void Modify(object sender, RoutedEventArgs e)
         {
             Count = Int32.Parse(countValue.Text);
-            Price = Double.Parse(priceValue.Text);
             Close();
         }
     }

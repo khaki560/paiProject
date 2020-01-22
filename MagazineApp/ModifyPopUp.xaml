@@ -5,11 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MagazineApp"
         mc:Ignorable="d"
-        Title="ModifyPopUp" Height="200" Width="200">
+        Title="ModifyPopUp" Height="160" Width="200">
     <Grid>
 		<Grid.RowDefinitions>
-			<RowDefinition Height="30" />
-			<RowDefinition Height="30" />
 			<RowDefinition Height="30" />
 			<RowDefinition Height="30" />
 			<RowDefinition Height="30" />
@@ -20,9 +18,6 @@
 		<Label Content="Count" HorizontalAlignment="Center"  Grid.Row="0" Grid.Column="0" />
 		<TextBox Grid.Row="1"  Name="countValue" Text=""/>
 
-		<Label Content="Price" HorizontalAlignment="Center"  Grid.Row="2" Grid.Column="0" />
-		<TextBox Grid.Row="3" Name="priceValue" Text=""/>
-
-		<Button Content="Modify" HorizontalAlignment="Center"  Grid.Row="4" Click="Modify" />
+		<Button Content="Modify" HorizontalAlignment="Center"  Grid.Row="2" Click="Modify" />
 	</Grid>
 </Window>
