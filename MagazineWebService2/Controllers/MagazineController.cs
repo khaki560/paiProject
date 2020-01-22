@@ -12,6 +12,7 @@ namespace WebApplication3.Controllers
 {
     public class MagazineController : ApiController
     {
+
         public IEnumerable<MagazineEntry> GetAllProducts()
         {
             using (var repository = new MagazineRepository())

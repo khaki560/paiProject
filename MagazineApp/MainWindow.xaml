@@ -31,6 +31,7 @@
 				</MenuItem.ContextMenu>
 			</MenuItem>
 
+			<Label Name="Synchro" Content="123" Grid.Column="1" />
 			<Button Name="Add" Content="add"         Grid.Column="2" Click="ButtonAdd_Click"/>
 			<Button Name="Delete" Content="Delete"   Grid.Column="3" Click="ButtonDelete_Click"/>
 			<Button Name="Modify" Content="Modify"   Grid.Column="4" Click="ButtonModify_Click"/>
@@ -49,7 +50,6 @@
 							</DataTemplate>
 						</GridViewColumn.CellTemplate>
 					</GridViewColumn>
-					<GridViewColumn Header="Id" Width="120" DisplayMemberBinding="{Binding Id}" />
 					<GridViewColumn Header="Name" Width="50" DisplayMemberBinding="{Binding Name}" />
 					<GridViewColumn Header="Count" Width="150" DisplayMemberBinding="{Binding Count}" />
 					<GridViewColumn Header="Database" Width="150" DisplayMemberBinding="{Binding Localization}" />

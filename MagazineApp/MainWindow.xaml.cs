@@ -4,7 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -14,6 +16,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace MagazineApp
 {
@@ -39,6 +42,7 @@ namespace MagazineApp
 
     public partial class MainWindow : Window
     {
+        private static System.Timers.Timer aTimer;
 
         public const string SERVICE_URL = "https://localhost:44315/";
 
@@ -46,6 +50,57 @@ namespace MagazineApp
         {
             InitializeComponent();
             RefreshListOfEntires();
+            isSynchronize();
+            SetTimer();
+        }
+
+        private void SetValue(string txt)
+        {
+            Synchro.Content = txt;
+        }
+
+        private void isSynchronize()
+        {
+            string content;
+            try
+            {
+                var client = GetWebClient();
+                var a = client.SynchronizationForUnit.IsSynchronize();
+
+
+                if (a is true)
+                {
+                    content = "synchronized";
+                }
+                else
+                {
+                    content = "Not synchronized";
+                }
+            }
+            catch (Exception ex)
+            {
+                content = "Not Connected";
+            }
+
+            Thread t = new Thread(new ThreadStart(delegate
+            {
+                Dispatcher.Invoke(DispatcherPriority.Normal, new Action<string>(SetValue), content);
+            }
+            ));
+            t.Start();
+        }
+        private void OnTimedEvent(Object source, ElapsedEventArgs e)
+        {
+            isSynchronize();
+        }
+        private void SetTimer()
+        {
+            // Create a timer with a 60 second interval.
+            aTimer = new System.Timers.Timer(10000);
+            // Hook up the Elapsed event for the timer. 
+            aTimer.Elapsed += OnTimedEvent;
+            aTimer.AutoReset = true;
+            aTimer.Enabled = true;
         }
 
         public static MagazineWebService2 GetWebClient(string uri = SERVICE_URL)
@@ -65,10 +120,9 @@ namespace MagazineApp
                 client.Magazine.AddMagazineProduct(addPopUp.Name, addPopUp.Count, addPopUp.Localization);
                 RefreshListOfEntires();
             }
-            catch
+            catch (Exception ex)
             {
-                var errorPopUp = new ErrorPopUp();
-                errorPopUp.ShowDialog();
+                ShowError(ex.Message);
             }
         }
 
@@ -87,10 +141,9 @@ namespace MagazineApp
                 }
                 RefreshListOfEntires();
             }
-            catch
+            catch (Exception ex)
             {
-                var errorPopUp = new ErrorPopUp();
-                errorPopUp.ShowDialog();
+                ShowError(ex.Message);
             }
         }
 
@@ -112,10 +165,9 @@ namespace MagazineApp
                 }
                 RefreshListOfEntires();
             }
-            catch
+            catch (Exception ex)
             {
-                var errorPopUp = new ErrorPopUp();
-                errorPopUp.ShowDialog();
+                ShowError(ex.Message);
             }
         }
 
@@ -141,9 +193,9 @@ namespace MagazineApp
             return success;
         }
 
-        private void ShowError()
+        private void ShowError(string err)
         {
-            var errorPopUp = new ErrorPopUp();
+            var errorPopUp = new ErrorPopUp(err);
             errorPopUp.ShowDialog();
         }
 
@@ -158,9 +210,9 @@ namespace MagazineApp
                     throw new PrintDialogException();
                 }
             }
-            catch
+            catch(Exception ex)
             {
-                ShowError();
+                ShowError(ex.Message);
             }
         }
 

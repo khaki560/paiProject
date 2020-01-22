@@ -19,13 +19,21 @@ namespace MagazineApp
     /// </summary>
     public partial class ErrorPopUp : Window
     {
-        public ErrorPopUp()
+        private string message;
+        public ErrorPopUp(string err="")
         {
+            message = err;
             InitializeComponent();
+            if (this.message != "")
+            {
+                l.Content = message;
+            }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+
+
             this.Close();
         }
     }

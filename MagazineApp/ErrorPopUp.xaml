@@ -5,14 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MagazineApp"
         mc:Ignorable="d"
-        Title="ErrorPopUp" Height="150" Width="350">
+        Title="ErrorPopUp" Height="150" Width="550">
     <Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="30*" />
 			<RowDefinition Height="30" />
 		</Grid.RowDefinitions>
 
-		<Label Content="Something Went wrong, Aborting" FontSize="20" Foreground="Red" />
+		<Label Name="l" Content="Something Went wrong, Aborting" FontSize="20" Foreground="Red" HorizontalAlignment="Center"/>
 
 		<Button Grid.Row="1" Content="OK" Click="Button_Click" />
 
