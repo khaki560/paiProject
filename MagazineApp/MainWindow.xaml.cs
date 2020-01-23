@@ -46,10 +46,13 @@ namespace MagazineApp
         private static System.Timers.Timer aTimer;
 
         public const string SERVICE_URL = "https://localhost:44315/";
+        private IList<Tuple<string, string>> unitsToSync { get; set; }
         private string filter = "All";
 
         public MainWindow()
         {
+            unitsToSync = new List<Tuple<string, string>>();
+
             InitializeComponent();
             RefreshListOfEntires();
             isSynchronize();
@@ -152,6 +155,21 @@ namespace MagazineApp
         {
             var client = new MagazineWebService2(new Uri(uri), new BasicAuthenticationCredentials());
             return client;
+        }
+
+        private void ButttonEditUnits_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var editUnits = new EditUnitsPopUp(unitsToSync);
+                editUnits.ShowDialog();
+
+                unitsToSync = editUnits.units;
+            }
+            catch (Exception ex)
+            {
+                ShowError(ex.Message);
+            }
         }
 
         private void ButtonAdd_Click(object sender, RoutedEventArgs e)
