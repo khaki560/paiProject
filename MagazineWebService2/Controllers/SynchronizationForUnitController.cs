@@ -73,7 +73,17 @@ namespace MagazineWebService2.Controllers
                     for(int i = 0; i < SERVICE_URLS.Length; i++)
                     {
                         var client = GetWebClient(SERVICE_URLS[i]);
-                        var list = client.Unit.GetAllProducts();
+
+                        IList<UnitEntry> list;
+                        try
+                        {
+                            list = client.Unit.GetAllProducts();
+                        }
+                        catch (HttpRequestException e)
+                        {
+                            Console.WriteLine("Cannot connect to the " + SERVICE_LOCATIONS[i] + "reason: " + e.ToString());
+                            continue;
+                        }
 
                         var entiresToRemove = listOfMagazineEntries.Where(x => x.Localization == SERVICE_LOCATIONS[i]);
 
