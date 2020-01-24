@@ -83,5 +83,31 @@ namespace MagazineApp
                 }
             }
 
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='units'>
+            /// </param>
+            public static object SynchronizeUnits(this ISynchronizationForUnit operations, IList<UnitsToSyncItem> units = default(IList<UnitsToSyncItem>))
+            {
+                return Task.Factory.StartNew(s => ((ISynchronizationForUnit)s).SynchronizeUnitsAsync(units), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='units'>
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task<object> SynchronizeUnitsAsync(this ISynchronizationForUnit operations, IList<UnitsToSyncItem> units = default(IList<UnitsToSyncItem>), CancellationToken cancellationToken = default(CancellationToken))
+            {
+                using (var _result = await operations.SynchronizeUnitsWithHttpMessagesAsync(units, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
+            }
+
     }
 }
