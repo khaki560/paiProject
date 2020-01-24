@@ -34,8 +34,11 @@ namespace MagazineApp
         }
 
         private void DeleteClick(object sender, RoutedEventArgs e)
-        {
-            this.units.RemoveAt(unitsCombo.SelectedIndex);
+        {   
+            if(unitsCombo.SelectedIndex >= 0 && unitsCombo.SelectedIndex < this.units.Count)
+            {
+                this.units.RemoveAt(unitsCombo.SelectedIndex);
+            }
             Close();
         }
 

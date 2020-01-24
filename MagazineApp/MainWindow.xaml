@@ -30,12 +30,12 @@
 				</Button.ContextMenu>
 			</Button>
 
-            <Label Name="Synchro" Content="123" Grid.Column="1" />
+            <Label Name="Synchro" Content="123" Grid.Column="1" Margin="0,0,112,0" />
+            <Button Name="EditUnits" Content="Edit Units" Grid.Column="1" HorizontalAlignment="Left" Margin="319,0,0,0" VerticalAlignment="Top" Width="75" Height="30" Click="ButttonEditUnits_Click"/>
             <Button Name="Add" Content="add"         Grid.Column="2" Click="ButtonAdd_Click"/>
             <Button Name="Delete" Content="Delete"   Grid.Column="3" Click="ButtonDelete_Click"/>
             <Button Name="Modify" Content="Modify"   Grid.Column="4" Click="ButtonModify_Click"/>
             <Button Name="Refresh" Content="Refresh" Grid.Column="5" Click="ButtonRefresh_Click"/>
-            <Button Name="EditUnits" Content="Edit Units" Grid.Column="1" HorizontalAlignment="Left" Margin="319,0,0,0" VerticalAlignment="Top" Width="75" Height="30" Click="ButttonEditUnits_Click"/>
         </Grid>
 
 		<ListView Margin="10" Grid.Row="1" Name="ListOfEntires">

@@ -91,7 +91,7 @@ namespace MagazineWebService2.Controllers
                     synchronize = true;
                 }
             }
-            catch(System.Net.Http.HttpRequestException e)
+            catch(Exception e)
             {
                 success = false;
                 synchronize = false;

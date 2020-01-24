@@ -93,7 +93,7 @@ namespace MagazineModel
         {
             try
             {
-                var unitsToRemove = GetAllUnitsToSync();
+                var unitsToRemove = db.UnitsToSync.Select(b => b);
                 db.UnitsToSync.RemoveRange(unitsToRemove);
                 db.SaveChanges();
                 
@@ -103,6 +103,7 @@ namespace MagazineModel
                 Console.WriteLine(e);
                 return;
             }
+
             db.UnitsToSync.AddRange(units);
             db.SaveChanges();            
         }
@@ -116,6 +117,7 @@ namespace MagazineModel
             return query.AsEnumerable().Select(item =>
                 new UnitsToSyncItem()
                 {
+                    Id = item.Id,
                     Name = item.Name,
                     HostAndPort = item.HostAndPort
                 }
