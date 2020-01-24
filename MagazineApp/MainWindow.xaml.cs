@@ -56,7 +56,6 @@ namespace MagazineApp
             RefreshListOfEntires();
             isSynchronize();
             SetTimer();
-            CreateFilter();
         }
 
         private void SetFilterValue(string txt)
@@ -75,26 +74,13 @@ namespace MagazineApp
 
         private void CreateFilter()
         {
-            try
+            Filter.ContextMenu.Items.Clear();
+            foreach (var unit in unitsToSync)
             {
-                var client = GetWebClient();
-                var c = client.SynchronizationForUnit.GetLocations();
-
-                string[] a = ((IEnumerable)c).Cast<object>()
-                                 .Select(x => x.ToString())
-                                 .ToArray();
-
-                foreach (var _a in a)
-                {
-                    var b = new Label { Content = _a };
-                    b.MouseLeftButtonUp += FilterLabelClick;
-                    Filter.ContextMenu.Items.Add(b);
-                }
+                var b = new Label { Content = unit.Name };
+                b.MouseLeftButtonUp += FilterLabelClick;
+                Filter.ContextMenu.Items.Add(b);
             }
-            catch (Exception ex)
-            {
-            }
-
         }
 
         private void SetValue(string txt)
@@ -275,6 +261,7 @@ namespace MagazineApp
             {
                 var client = GetWebClient();
                 unitsToSync = client.SynchronizationForUnit.GetAllUnitsToSync();
+                CreateFilter();
             }
             catch (Exception ex)
             {
