@@ -21,11 +21,17 @@ namespace MagazineApp.Models
         /// <summary>
         /// Initializes a new instance of the UnitsToSyncItem class.
         /// </summary>
-        public UnitsToSyncItem(string name = default(string), string hostAndPort = default(string))
+        public UnitsToSyncItem(int? id = default(int?), string name = default(string), string hostAndPort = default(string))
         {
+            Id = id;
             Name = name;
             HostAndPort = hostAndPort;
         }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "Id")]
+        public int? Id { get; set; }
 
         /// <summary>
         /// </summary>

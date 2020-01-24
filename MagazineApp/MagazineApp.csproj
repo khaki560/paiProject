@@ -100,6 +100,7 @@
     <Compile Include="MagazineWebService2\MagazineExtensions.cs" />
     <Compile Include="MagazineWebService2\MagazineWebService2.cs" />
     <Compile Include="MagazineWebService2\Models\MagazineEntry.cs" />
+    <Compile Include="MagazineWebService2\Models\UnitsToSyncItem.cs" />
     <Compile Include="MagazineWebService2\SynchronizationForUnit.cs" />
     <Compile Include="MagazineWebService2\SynchronizationForUnitExtensions.cs" />
     <Compile Include="MainWindow.xaml.cs">

@@ -191,6 +191,29 @@
         }
       }
     },
+    "/api/SynchronizationForUnit/GetAllUnitsToSync": {
+      "get": {
+        "tags": [
+          "SynchronizationForUnit"
+        ],
+        "operationId": "SynchronizationForUnit_GetAllUnitsToSync",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/UnitsToSync"
+            }
+          }
+        }
+      }
+    },
     "/api/SynchronizationForUnit/SynchronizeUnits": {
       "post": {
         "tags": [
@@ -247,6 +270,10 @@
       "items": {
         "type": "object",
         "properties": {
+          "Id": {
+            "format": "int32",
+            "type": "integer"
+          },
           "name": {
             "type": "string"
           },

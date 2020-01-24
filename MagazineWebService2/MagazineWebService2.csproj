@@ -156,6 +156,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\magazine\MagazineContext.cs" />
+    <Compile Include="Models\magazine\unitsToSyncItem.cs" />
     <Compile Include="Models\magazine\magazineEntry.cs" />
     <Compile Include="Models\magazine\magazineRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

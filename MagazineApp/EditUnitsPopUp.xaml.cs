@@ -1,4 +1,5 @@
-﻿using Microsoft.Rest;
+﻿using MagazineApp.Models;
+using Microsoft.Rest;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,15 +21,15 @@ namespace MagazineApp
     /// </summary>
     public partial class EditUnitsPopUp : Window
     {
-        public IList<Tuple<string, string>> units { get; set; }
-        public EditUnitsPopUp(IList<Tuple<string, string>> units)
+        public IList<UnitsToSyncItem> units { get; set; }
+        public EditUnitsPopUp(IList<UnitsToSyncItem> units)
         {
             InitializeComponent();
             this.units = units;
 
             foreach(var unit in this.units)
             {
-                unitsCombo.Items.Add(unit.Item1 + ", url: " + unit.Item2);
+                unitsCombo.Items.Add(unit.Name + ", url: " + unit.HostAndPort);
             }
         }
 
@@ -42,7 +43,8 @@ namespace MagazineApp
         {
             string name = nameValue.Text;
             string hostAndPort = hostAndPortValue.Text;
-            this.units.Add(new Tuple<string, string>(name, hostAndPort));
+
+            this.units.Add(new UnitsToSyncItem(units.Count, name, hostAndPort));
             Close();
         }
     }

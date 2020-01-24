@@ -46,14 +46,13 @@ namespace MagazineApp
         private static System.Timers.Timer aTimer;
 
         public const string SERVICE_URL = "https://localhost:44315/";
-        private IList<Tuple<string, string>> unitsToSync { get; set; }
+        private IList<UnitsToSyncItem> unitsToSync { get; set; }
         private string filter = "All";
 
         public MainWindow()
         {
-            unitsToSync = new List<Tuple<string, string>>();
-
             InitializeComponent();
+            fetchAllUnitsToSync();
             RefreshListOfEntires();
             isSynchronize();
             SetTimer();
@@ -165,6 +164,9 @@ namespace MagazineApp
                 editUnits.ShowDialog();
 
                 unitsToSync = editUnits.units;
+                var client = GetWebClient();
+                client.SynchronizationForUnit.SynchronizeUnits(unitsToSync);
+
             }
             catch (Exception ex)
             {
@@ -267,6 +269,22 @@ namespace MagazineApp
             return success;
         }
 
+        private bool fetchAllUnitsToSync()
+        {
+            try
+            {
+                var client = GetWebClient();
+                unitsToSync = client.SynchronizationForUnit.GetAllUnitsToSync();
+            }
+            catch (Exception ex)
+            {
+                ShowError(ex.Message);
+                return false;
+            }
+
+            return true;
+        }
+
         private void ShowError(string err)
         {
             var errorPopUp = new ErrorPopUp(err);
@@ -275,10 +293,11 @@ namespace MagazineApp
 
         private void ButtonRefresh_Click(object sender, RoutedEventArgs e)
         {
+            fetchAllUnitsToSync();
             try
             {
                 var client = GetWebClient();
-                client.SynchronizationForUnit.Synchronize();
+                client.SynchronizationForUnit.SynchronizeUnits(unitsToSync);
                 if (RefreshListOfEntires() == false)
                 {
                     throw new PrintDialogException();

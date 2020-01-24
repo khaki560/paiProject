@@ -26,43 +26,32 @@ namespace MagazineWebService2.Controllers
             return client;
         }
 
+        public IList<UnitsToSyncItem> GetAllUnitsToSync()
+        {
+            using (var repository = new MagazineRepository())
+            {
+                var a = repository.GetAllUnitsToSync().ToList();
+                return a;
+            }
+        }
+
+        public IHttpActionResult SynchronizeUnits(IList<UnitsToSyncItem> units)
+        {
+            using (var repository = new MagazineRepository())
+            {
+                repository.AddAllUnitsToSync(units);
+            }
+            
+            return Ok();
+        }
+
         public IHttpActionResult IsSynchronize()
         {
             return Ok(synchronize);
         }
 
-        public IHttpActionResult GetLocations()
-        {
-            int len = SERVICE_LOCATIONS.Length + 2;
-            string[] tmp = new string[len];
 
-            tmp[0] = "All";
-            tmp[1] = "Magazine";
-            for (int i = 0; i < SERVICE_LOCATIONS.Length; i++)
-            {
-                tmp[i + 2] = SERVICE_LOCATIONS[i];
-            }
-
-            return Ok(tmp);
-        }
-
-
-    //    public IHttpActionResult A()
-    //    {
-    //        int len = SERVICE_LOCATIONS.Length + 2;
-
-    //        public string[] tmp = new string[_len];
-
-    //    tmp[0] = "All";
-    //        tmp[1] = "Magazine";
-    //        for(int i = 0; i<SERVICE_LOCATIONS.Length; i++)
-    //        {
-    //            tmp[i + 2] =  SERVICE_LOCATIONS[i];
-        
-    //        return Ok(synchronize);
-    //}
-
-    public IHttpActionResult Synchronize()
+        public IHttpActionResult Synchronize()
         {
             bool success = true;
             try
@@ -70,22 +59,23 @@ namespace MagazineWebService2.Controllers
                 using (var repository = new MagazineRepository())
                 { 
                     var listOfMagazineEntries = repository.GetAll();
-                    for(int i = 0; i < SERVICE_URLS.Length; i++)
+                    var unitsToSync = new MagazineRepository().GetAllUnitsToSync();
+                    foreach(var unit in unitsToSync)
                     {
-                        var client = GetWebClient(SERVICE_URLS[i]);
+                        var client = GetWebClient(unit.HostAndPort);
 
                         IList<UnitEntry> list;
                         try
                         {
                             list = client.Unit.GetAllProducts();
                         }
-                        catch (HttpRequestException e)
+                        catch (Exception e)
                         {
-                            Console.WriteLine("Cannot connect to the " + SERVICE_LOCATIONS[i] + "reason: " + e.ToString());
+                            Console.WriteLine("Cannot connect to the " + unit.Name + "reason: " + e.ToString());
                             continue;
                         }
 
-                        var entiresToRemove = listOfMagazineEntries.Where(x => x.Localization == SERVICE_LOCATIONS[i]);
+                        var entiresToRemove = listOfMagazineEntries.Where(x => x.Localization == unit.Name);
 
                         foreach (var entry in entiresToRemove)
                         {
@@ -94,7 +84,7 @@ namespace MagazineWebService2.Controllers
 
                         foreach (var unitEntry in list)
                         {
-                            MagazineEntry entry = new MagazineEntry(unitEntry.Name, unitEntry.Count.GetValueOrDefault(), SERVICE_LOCATIONS[i]);
+                            MagazineEntry entry = new MagazineEntry(unitEntry.Name, unitEntry.Count.GetValueOrDefault(), unit.Name);
                             repository.Add(entry);
                         }
                     }

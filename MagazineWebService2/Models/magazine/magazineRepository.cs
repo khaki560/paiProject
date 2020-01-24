@@ -81,12 +81,47 @@ namespace MagazineModel
             );
         }
 
+
         public void Update(int id, int count)
         {
             var product = Get(id);
             product.Count = count;
             db.SaveChanges();
         }
+
+        public void AddAllUnitsToSync(IList<UnitsToSyncItem> units)
+        {
+            try
+            {
+                var unitsToRemove = GetAllUnitsToSync();
+                db.UnitsToSync.RemoveRange(unitsToRemove);
+                db.SaveChanges();
+                
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return;
+            }
+            db.UnitsToSync.AddRange(units);
+            db.SaveChanges();            
+        }
+
+        public IEnumerable<UnitsToSyncItem> GetAllUnitsToSync()
+        {
+            var query = from b in db.UnitsToSync
+                        orderby b.Id
+                        select b;
+
+            return query.AsEnumerable().Select(item =>
+                new UnitsToSyncItem()
+                {
+                    Name = item.Name,
+                    HostAndPort = item.HostAndPort
+                }
+            );
+        }
+
         public void Dispose()
         {
             db.Dispose();

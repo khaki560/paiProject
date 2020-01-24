@@ -16,5 +16,6 @@ namespace MagazineModel
         }
 
         public DbSet<MagazineEntry> Entries { get; set; }
+        public DbSet<UnitsToSyncItem> UnitsToSync { get; set; }
     }
 }
