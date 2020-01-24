@@ -190,6 +190,63 @@
           }
         }
       }
+    },
+    "/api/SynchronizationForUnit/GetAllUnitsToSync": {
+      "get": {
+        "tags": [
+          "SynchronizationForUnit"
+        ],
+        "operationId": "SynchronizationForUnit_GetAllUnitsToSync",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/UnitsToSync"
+            }
+          }
+        }
+      }
+    },
+    "/api/SynchronizationForUnit/SynchronizeUnits": {
+      "post": {
+        "tags": [
+          "SynchronizationForUnit"
+        ],
+        "operationId": "SynchronizationForUnit_SynchronizeUnits",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "units",
+            "schema": {
+              "$ref": "#/definitions/UnitsToSync"
+            }
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object"
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -206,6 +263,24 @@
           "type": "integer"
         },
         "Localization": { "type": "string" }
+      }
+    },
+    "UnitsToSync": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "Id": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          },
+          "hostAndPort": {
+            "type": "string"
+          }
+        }
       }
     }
   }

@@ -46,15 +46,16 @@ namespace MagazineApp
         private static System.Timers.Timer aTimer;
 
         public const string SERVICE_URL = "https://localhost:44315/";
+        private IList<UnitsToSyncItem> unitsToSync { get; set; }
         private string filter = "All";
 
         public MainWindow()
         {
             InitializeComponent();
+            fetchAllUnitsToSync();
             RefreshListOfEntires();
             isSynchronize();
             SetTimer();
-            CreateFilter();
         }
 
         private void SetFilterValue(string txt)
@@ -73,26 +74,13 @@ namespace MagazineApp
 
         private void CreateFilter()
         {
-            try
+            Filter.ContextMenu.Items.Clear();
+            foreach (var unit in unitsToSync)
             {
-                var client = GetWebClient();
-                var c = client.SynchronizationForUnit.GetLocations();
-
-                string[] a = ((IEnumerable)c).Cast<object>()
-                                 .Select(x => x.ToString())
-                                 .ToArray();
-
-                foreach (var _a in a)
-                {
-                    var b = new Label { Content = _a };
-                    b.MouseLeftButtonUp += FilterLabelClick;
-                    Filter.ContextMenu.Items.Add(b);
-                }
+                var b = new Label { Content = unit.Name };
+                b.MouseLeftButtonUp += FilterLabelClick;
+                Filter.ContextMenu.Items.Add(b);
             }
-            catch (Exception ex)
-            {
-            }
-
         }
 
         private void SetValue(string txt)
@@ -152,6 +140,24 @@ namespace MagazineApp
         {
             var client = new MagazineWebService2(new Uri(uri), new BasicAuthenticationCredentials());
             return client;
+        }
+
+        private void ButttonEditUnits_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var editUnits = new EditUnitsPopUp(unitsToSync);
+                editUnits.ShowDialog();
+
+                unitsToSync = editUnits.units;
+                var client = GetWebClient();
+                client.SynchronizationForUnit.SynchronizeUnits(unitsToSync);
+
+            }
+            catch (Exception ex)
+            {
+                ShowError(ex.Message);
+            }
         }
 
         private void ButtonAdd_Click(object sender, RoutedEventArgs e)
@@ -249,6 +255,23 @@ namespace MagazineApp
             return success;
         }
 
+        private bool fetchAllUnitsToSync()
+        {
+            try
+            {
+                var client = GetWebClient();
+                unitsToSync = client.SynchronizationForUnit.GetAllUnitsToSync();
+                CreateFilter();
+            }
+            catch (Exception ex)
+            {
+                ShowError(ex.Message);
+                return false;
+            }
+
+            return true;
+        }
+
         private void ShowError(string err)
         {
             var errorPopUp = new ErrorPopUp(err);
@@ -257,10 +280,11 @@ namespace MagazineApp
 
         private void ButtonRefresh_Click(object sender, RoutedEventArgs e)
         {
+            fetchAllUnitsToSync();
             try
             {
                 var client = GetWebClient();
-                client.SynchronizationForUnit.Synchronize();
+                client.SynchronizationForUnit.SynchronizeUnits(unitsToSync);
                 if (RefreshListOfEntires() == false)
                 {
                     throw new PrintDialogException();
