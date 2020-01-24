@@ -6,58 +6,60 @@
         xmlns:local="clr-namespace:Unit1App"
         mc:Ignorable="d"
         Title="UnitWindow" Height="450" Width="800">
-	<Grid>
-		<Grid.RowDefinitions>
-			<RowDefinition Height="30" />
-			<RowDefinition Height="*" />
-		</Grid.RowDefinitions>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
 
-		<Grid>
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="75" />
-				<ColumnDefinition Width="*" />
-				<ColumnDefinition Width="75" />
-				<ColumnDefinition Width="75" />
-				<ColumnDefinition Width="75" />
-				<ColumnDefinition Width="75" />
-				<ColumnDefinition Width="75" />
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="75" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="75" />
+                <ColumnDefinition Width="75" />
+                <ColumnDefinition Width="75" />
+                <ColumnDefinition Width="75" />
+                <ColumnDefinition Width="75" />
 
-			</Grid.ColumnDefinitions>
+            </Grid.ColumnDefinitions>
 
 
-			<MenuItem  Click="Filter_Click" x:Name="Filter"  Grid.Column="0">
-				<MenuItem.ContextMenu>
-					<ContextMenu>
-					</ContextMenu>
-				</MenuItem.ContextMenu>
-			</MenuItem>
+            <MenuItem  Click="Filter_Click" x:Name="Filter"  Grid.Column="0">
+                <MenuItem.ContextMenu>
+                    <ContextMenu>
+                    </ContextMenu>
+                </MenuItem.ContextMenu>
+            </MenuItem>
 
-			<Button Name="Add" Content="add"         Grid.Column="2" Click="ButtonAdd_Click"/>
-			<Button Name="Delete" Content="Delete"   Grid.Column="3" Click="ButtonDelete_Click"/>
-			<Button Name="Modify" Content="Modify"   Grid.Column="4" Click="ButtonModify_Click"/>
-			<Button Name="Refresh" Content="Refresh" Grid.Column="5" Click="ButtonRefresh_Click"/>
-			<Button Name="Order" Content="Order"     Grid.Column="6" Click="ButtonOrder_Click"/>
-		</Grid>
+            <Button Name="Add" Content="add"         Grid.Column="2" Click="ButtonAdd_Click"/>
+            <Button Name="Delete" Content="Delete"   Grid.Column="3" Click="ButtonDelete_Click"/>
+            <Button Name="Modify" Content="Modify"   Grid.Column="4" Click="ButtonModify_Click"/>
+            <Button Name="Refresh" Content="Refresh" Grid.Column="5" Click="ButtonRefresh_Click"/>
+            <Button Name="Order" Content="Order"     Grid.Column="6" Click="ButtonOrder_Click"/>
+            <TextBox x:Name="serverUrlText" Grid.Column="1" HorizontalAlignment="Left" Height="30" TextWrapping="Wrap" Text="http(s)://host:port" VerticalAlignment="Top" Width="169"/>
+            <Button x:Name="serverUrlConfirm" Content="Ok" Click="ButtonUrlConfirm_Click" Grid.Column="1" HorizontalAlignment="Left" Margin="169,-1,0,0" VerticalAlignment="Top" Width="77" Height="31"/>
+        </Grid>
 
-		<ListView Margin="10" Grid.Row="1" Name="ListOfEntires">
-			<ListView.View>
-				<GridView>
-					<GridViewColumn Header="Active">
-						<GridViewColumn.CellTemplate>
-							<DataTemplate>
-								<Grid>
-									<CheckBox  x:Name="chkAvg" IsChecked="{Binding Selected}" />
-								</Grid>
-							</DataTemplate>
-						</GridViewColumn.CellTemplate>
-					</GridViewColumn>
-					<GridViewColumn Header="Name" Width="50" DisplayMemberBinding="{Binding Name}" />
-					<GridViewColumn Header="Count" Width="150" DisplayMemberBinding="{Binding Count}" />
-					<GridViewColumn Header="Price" Width="150" DisplayMemberBinding="{Binding Price}" />
-				</GridView>
-			</ListView.View>
-		</ListView>
-	</Grid>
+        <ListView Margin="10" Grid.Row="1" Name="ListOfEntires">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Active">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <CheckBox  x:Name="chkAvg" IsChecked="{Binding Selected}" />
+                                </Grid>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Name" Width="50" DisplayMemberBinding="{Binding Name}" />
+                    <GridViewColumn Header="Count" Width="150" DisplayMemberBinding="{Binding Count}" />
+                    <GridViewColumn Header="Price" Width="150" DisplayMemberBinding="{Binding Price}" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+    </Grid>
 </Window>
 
 

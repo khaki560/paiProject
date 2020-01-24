@@ -39,25 +39,30 @@ namespace Unit1App
     }
     public partial class MainWindow : Window
     {
-        public const string SERVICE_URL = "https://localhost:44346/";
+        public string serviceURL;
 
         public MainWindow()
         {
             InitializeComponent();
-            RefreshListOfEntires();
-
+            serviceURL = serverUrlText.Text;
         }
 
-        public static UnitWebService GetWebClient(string uri = SERVICE_URL)
+        public static UnitWebService GetWebClient(string uri)
         {
             return new UnitWebService(new Uri(uri), new BasicAuthenticationCredentials());
+        }
+       
+        private void ButtonUrlConfirm_Click(object sender, RoutedEventArgs e)
+        {
+            serviceURL = serverUrlText.Text;
+            RefreshListOfEntires();
         }
 
         private void ButtonAdd_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                var client = GetWebClient();
+                var client = GetWebClient(serviceURL);
                 var addPopUp = new Add();
                 addPopUp.ShowDialog();
 
@@ -75,7 +80,7 @@ namespace Unit1App
         {
             try
             {
-                var client = GetWebClient();
+                var client = GetWebClient(serviceURL);
 
                 foreach (UnitEntryDisplay item in ListOfEntires.Items)
                 {
@@ -97,7 +102,7 @@ namespace Unit1App
         {
             try
             {
-                var client = GetWebClient();
+                var client = GetWebClient(serviceURL);
 
                 foreach (UnitEntryDisplay item in ListOfEntires.Items)
                 {
@@ -122,7 +127,7 @@ namespace Unit1App
         {
             try
             {
-                var client = GetWebClient();
+                var client = GetWebClient(serviceURL);
                 var list = client.Unit.GetAllProducts();
 
                 ListOfEntires.Items.Clear();
@@ -154,7 +159,7 @@ namespace Unit1App
         {
             try
             {
-                var client = GetWebClient();
+                var client = GetWebClient(serviceURL);
                 foreach (UnitEntryDisplay item in ListOfEntires.Items)
                 {
                     if (item.Selected == true)
