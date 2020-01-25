@@ -45,21 +45,23 @@ namespace MagazineApp
     {
         private static System.Timers.Timer aTimer;
 
-        public const string SERVICE_URL = "https://localhost:44315/";
+        public string SERVICE_URL = "";
         private string filter = "All";
+
+        private static readonly log4net.ILog _log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public MainWindow()
         {
+            SERVICE_URL = GetUrl();
             InitializeComponent();
             RefreshListOfEntires();
             isSynchronize();
             SetTimer();
             CreateFilter();
         }
-
-        private void SetFilterValue(string txt)
+        private string GetUrl()
         {
-
+            return System.IO.File.ReadAllText(@"config.txt");
         }
 
         private void FilterLabelClick(object sender, RoutedEventArgs e)
@@ -75,7 +77,7 @@ namespace MagazineApp
         {
             try
             {
-                var client = GetWebClient();
+                var client = GetWebClient(SERVICE_URL);
                 var c = client.SynchronizationForUnit.GetLocations();
 
                 string[] a = ((IEnumerable)c).Cast<object>()
@@ -109,7 +111,7 @@ namespace MagazineApp
             string content;
             try
             {
-                var client = GetWebClient();
+                var client = GetWebClient(SERVICE_URL);
                 var a = client.SynchronizationForUnit.IsSynchronize();
 
 
@@ -148,8 +150,9 @@ namespace MagazineApp
             aTimer.Enabled = true;
         }
 
-        public static MagazineWebService2 GetWebClient(string uri = SERVICE_URL)
+        public static MagazineWebService2 GetWebClient(string uri)
         {
+            _log.Info(uri);
             var client = new MagazineWebService2(new Uri(uri), new BasicAuthenticationCredentials());
             return client;
         }
@@ -158,7 +161,7 @@ namespace MagazineApp
         {
             try
             {
-                var client = GetWebClient();
+                var client = GetWebClient(SERVICE_URL);
                 var addPopUp = new AddPopUp();
                 addPopUp.ShowDialog();
 
@@ -175,7 +178,7 @@ namespace MagazineApp
         {
             try
             {
-                var client = GetWebClient();
+                var client = GetWebClient(SERVICE_URL);
 
                 foreach (MagazineEntryDisplay item in ListOfEntires.Items)
                 {
@@ -196,7 +199,7 @@ namespace MagazineApp
         {
             try
             {
-                var client = GetWebClient();
+                var client = GetWebClient(SERVICE_URL);
 
                 foreach (MagazineEntryDisplay item in ListOfEntires.Items)
                 {
@@ -221,7 +224,7 @@ namespace MagazineApp
             bool success = true;
             try
             {
-                var client = GetWebClient();
+                var client = GetWebClient(SERVICE_URL);
                 var list = client.Magazine.GetAllProducts();
 
                 ListOfEntires.Items.Clear();
@@ -259,7 +262,7 @@ namespace MagazineApp
         {
             try
             {
-                var client = GetWebClient();
+                var client = GetWebClient(SERVICE_URL);
                 client.SynchronizationForUnit.Synchronize();
                 if (RefreshListOfEntires() == false)
                 {

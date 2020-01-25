@@ -1,6 +1,7 @@
 ﻿using Microsoft.Rest;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -12,9 +13,15 @@ namespace UnitWebService.Controllers
 {
     public class OrderController : ApiController
     {
-        public readonly string SERVICE_URL =  "https://localhost:44315/";
-        public readonly string MAGAZINE_LOCATION = "Magazine" ;
+        public string SERVICE_URL =  "";
+        public string MAGAZINE_LOCATION = "" ;
 
+
+        public OrderController()
+        {
+            SERVICE_URL = ConfigurationManager.AppSettings["URL"];
+            MAGAZINE_LOCATION = ConfigurationManager.AppSettings["VALUE"];
+        }
         public static MagazineWebService2 GetWebClient(string uri)
         {
             var client = new MagazineWebService2(new Uri(uri), new BasicAuthenticationCredentials());

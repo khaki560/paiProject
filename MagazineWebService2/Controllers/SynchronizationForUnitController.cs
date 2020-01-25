@@ -1,4 +1,5 @@
-﻿using MagazineModel;
+﻿using System.Configuration;
+using MagazineModel;
 using MagazineWebService2.Models;
 using Microsoft.Rest;
 using System;
@@ -14,12 +15,25 @@ namespace MagazineWebService2.Controllers
     public class SynchronizationForUnitController : ApiController
     {
 
+        private static readonly log4net.ILog _log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         public static bool synchronize = false;
 
-        public readonly string[] SERVICE_URLS = new string[1] { "https://localhost:44346/" };
-        public readonly string[] SERVICE_LOCATIONS = new string[1] { "Unit1" };
+        private const int MAX = 2;
+        public string[] SERVICE_URLS = new string[MAX];
+        public string[] SERVICE_LOCATIONS = new string[MAX];
 
+        public SynchronizationForUnitController()
+        {
+            var a = ConfigurationManager.AppSettings["URL"].Split(';');
+            var b= ConfigurationManager.AppSettings["VALUE"].Split(';');
 
+            for(int i = 0; i < MAX; i++)
+            {
+                SERVICE_URLS[i] = a[i];
+                SERVICE_LOCATIONS[i] = b[i];
+            }
+        }
         public static UnitWebService GetWebClient(string uri)
         {
             var client = new UnitWebService(new Uri(uri), new BasicAuthenticationCredentials());
@@ -46,23 +60,7 @@ namespace MagazineWebService2.Controllers
             return Ok(tmp);
         }
 
-
-    //    public IHttpActionResult A()
-    //    {
-    //        int len = SERVICE_LOCATIONS.Length + 2;
-
-    //        public string[] tmp = new string[_len];
-
-    //    tmp[0] = "All";
-    //        tmp[1] = "Magazine";
-    //        for(int i = 0; i<SERVICE_LOCATIONS.Length; i++)
-    //        {
-    //            tmp[i + 2] =  SERVICE_LOCATIONS[i];
-        
-    //        return Ok(synchronize);
-    //}
-
-    public IHttpActionResult Synchronize()
+        public IHttpActionResult Synchronize()
         {
             bool success = true;
             try
@@ -72,11 +70,10 @@ namespace MagazineWebService2.Controllers
                     var listOfMagazineEntries = repository.GetAll();
                     for(int i = 0; i < SERVICE_URLS.Length; i++)
                     {
-                        var client = GetWebClient(SERVICE_URLS[i]);
-
                         IList<UnitEntry> list;
                         try
                         {
+                            var client = GetWebClient(SERVICE_URLS[i]);
                             list = client.Unit.GetAllProducts();
                         }
                         catch (HttpRequestException e)
@@ -87,8 +84,10 @@ namespace MagazineWebService2.Controllers
 
                         var entiresToRemove = listOfMagazineEntries.Where(x => x.Localization == SERVICE_LOCATIONS[i]);
 
+                        _log.InfoFormat("entiresToRemove");
                         foreach (var entry in entiresToRemove)
                         {
+                            _log.InfoFormat($"{entry.Id.ToString()}");
                             repository.Remove(entry.Id);
                         }
 

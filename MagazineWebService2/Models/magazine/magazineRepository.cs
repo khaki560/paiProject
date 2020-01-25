@@ -13,7 +13,7 @@ namespace MagazineModel
     {
         // Server=localhost;Database=MagazineWebServiceDBTest;User Id=testuser;Password=123;  --- this is an example value for connectionString="" in Web.config file
         private readonly MagazineContext db = new MagazineContext(ConfigurationManager.ConnectionStrings["MagazineConnectionStr"].ConnectionString);
-
+        private static readonly log4net.ILog _log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         private MagazineEntry Get(int id)
         {
@@ -36,13 +36,16 @@ namespace MagazineModel
             var toReturn = false;
             try
             {
-                var entryToRemove = Get(id);
+
+                var entryToRemove = db.Entries.Where(x => x.Id == id).FirstOrDefault();
+
                 db.Entries.Remove(entryToRemove);
                 db.SaveChanges();
                 toReturn = true;
             }
             catch(Exception e)
             {
+                _log.InfoFormat(e.InnerException.Message);
                 Console.WriteLine(e);
                 // TODO: very bad design
             }
